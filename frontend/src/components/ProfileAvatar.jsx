@@ -1,0 +1,37 @@
+import React, { useState } from 'react';
+
+const PHOTO_SRC = '/profile.jpg';
+
+const ProfileAvatar = ({ size = 'md', className = '' }) => {
+    const [imgFailed, setImgFailed] = useState(false);
+
+    const sizes = {
+        sm: 'h-32 w-32 text-3xl sm:h-40 sm:w-40 sm:text-4xl',
+        md: 'w-60 h-72 sm:w-68 sm:h-80 text-5xl sm:text-6xl rounded-3xl',
+        lg: 'h-36 w-36 text-4xl sm:h-44 sm:w-44 sm:text-5xl',
+    };
+
+    const isRounded = size !== 'md';
+    const objectPosition = isRounded ? 'center 15%' : 'center 10%';
+
+    return (
+        <div
+            className={`profile-avatar relative flex items-center justify-center overflow-hidden bg-gradient-to-br from-blue-600 via-blue-600 to-blue-900 font-bold text-white shadow-[0_0_40px_rgba(56, 189, 248,0.35)] ${isRounded ? 'rounded-full border-4 border-blue-500/60' : 'border-2 border-blue-500/30'} ${sizes[size]} ${className}`}
+        >
+            {!imgFailed ? (
+                <img
+                    src={PHOTO_SRC}
+                    alt="Muhammad Qasim"
+                    onError={() => setImgFailed(true)}
+                    className="h-full w-full object-cover"
+                    style={{ objectPosition }}
+                    loading="eager"
+                />
+            ) : (
+                <span aria-label="Muhammad Qasim">MQ</span>
+            )}
+        </div>
+    );
+};
+
+export default ProfileAvatar;
