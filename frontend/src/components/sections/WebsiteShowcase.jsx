@@ -29,7 +29,7 @@ const BrowserMock = ({ scrollY }) => {
                     </div>
                     <div className="flex flex-1 items-center gap-2 rounded-lg border border-white/10 bg-black/40 px-3 py-1.5">
                         <span className="h-2 w-2 rounded-full bg-emerald-400" />
-                        <span className="truncate text-[11px] text-sky-100/70">alkabir-developers.vercel.app</span>
+                        <span className="truncate text-[11px] text-sky-100/70">al-kabir-replica-real-estate-websit-tau.vercel.app</span>
                     </div>
                 </div>
 
@@ -168,27 +168,46 @@ const WebsiteShowcase = () => {
                             ))}
                         </ul>
 
-                        <motion.a
-                            href="https://github.com/mqasim91310"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="btn primary-btn inline-flex items-center gap-2"
-                            whileHover={{ scale: 1.04, y: -2 }}
-                            whileTap={{ scale: 0.97 }}
-                        >
-                            View Source Code <ArrowRight size={16} />
-                        </motion.a>
+                        <div className="flex flex-wrap items-center justify-center gap-3 lg:justify-start">
+                            <motion.a
+                                href="https://al-kabir-replica-real-estate-websit-tau.vercel.app/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="btn primary-btn inline-flex items-center gap-2"
+                                whileHover={{ scale: 1.04, y: -2 }}
+                                whileTap={{ scale: 0.97 }}
+                            >
+                                View Live Site <ArrowRight size={16} />
+                            </motion.a>
+                            <motion.a
+                                href="https://github.com/mqasim91310"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="btn secondary-btn inline-flex items-center gap-2"
+                                whileHover={{ scale: 1.04, y: -2 }}
+                                whileTap={{ scale: 0.97 }}
+                            >
+                                View Source Code
+                            </motion.a>
+                        </div>
                     </motion.div>
 
                     <motion.div style={{ y }} className="relative">
-                        <TiltCard maxTilt={5} className="rounded-2xl">
-                            <motion.div
-                                animate={{ y: [0, -12, 0] }}
-                                transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
-                            >
-                                <BrowserMock scrollY={smoothProgress} />
-                            </motion.div>
-                        </TiltCard>
+                        <a
+                            href="https://al-kabir-replica-real-estate-websit-tau.vercel.app/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="Open Al Kabir Developers live site"
+                        >
+                            <TiltCard maxTilt={5} className="rounded-2xl">
+                                <motion.div
+                                    animate={{ y: [0, -12, 0] }}
+                                    transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
+                                >
+                                    <BrowserMock scrollY={smoothProgress} />
+                                </motion.div>
+                            </TiltCard>
+                        </a>
                     </motion.div>
                 </div>
             </div>

@@ -93,6 +93,7 @@ export const projectData = [
         icon: HomeIcon,
         gradient: 'from-sky-500 to-blue-700',
         github: 'https://github.com/mqasim91310',
+        demo: 'https://al-kabir-replica-real-estate-websit-tau.vercel.app/',
         featured: true,
     },
     {
