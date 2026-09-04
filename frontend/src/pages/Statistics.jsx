@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import AnimatedCounter from '../components/AnimatedCounter';
+import { useStatistics } from '../hooks/useStatistics';
 
 const StatCard = ({ title, targetValue, suffix = '' }) => {
     return (
@@ -28,6 +29,8 @@ const StatCard = ({ title, targetValue, suffix = '' }) => {
 };
 
 const Statistics = () => {
+    const stats = useStatistics({ years: 4, projects: 15, certificates: 12 });
+
     const containerVariants = {
         hidden: { opacity: 0 },
         visible: { opacity: 1, transition: { staggerChildren: 0.12 } }
@@ -37,14 +40,14 @@ const Statistics = () => {
         <section id="statistics" className="statistics-section section-padding py-20 relative overflow-hidden">
             <div className="container mx-auto px-4 max-w-5xl">
 
-                <motion.h2
+                <motion.h1
                     className="section-title text-center mb-16 font-bold text-3xl sm:text-4xl text-white"
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5 }}
                 >
                     My Journey in Numbers
-                </motion.h2>
+                </motion.h1>
 
                 <motion.div
                     className="stats-grid grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6"
@@ -53,11 +56,11 @@ const Statistics = () => {
                     whileInView="visible"
                     viewport={{ once: true, amount: 0.1 }}
                 >
-                    <StatCard title="Years Journey" targetValue={4} suffix="+" />
+                    <StatCard title="Years Journey" targetValue={stats.years} suffix="+" />
                     <StatCard title="Semesters" targetValue={8} />
-                    <StatCard title="Projects Completed" targetValue={15} suffix="+" />
+                    <StatCard title="Projects Completed" targetValue={stats.projects} suffix="+" />
                     <StatCard title="Technologies Learned" targetValue={15} suffix="+" />
-                    <StatCard title="Certificates Earned" targetValue={12} suffix="+" />
+                    <StatCard title="Certificates Earned" targetValue={stats.certificates} suffix="+" />
                     <StatCard title="Coding Hours" targetValue={5000} suffix="+" />
                 </motion.div>
 

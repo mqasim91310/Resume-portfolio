@@ -1,12 +1,26 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { AlertTriangle } from 'lucide-react';
+import { useFocusTrap } from '../../hooks/useFocusTrap';
 
 // Controlled confirm modal. Usage:
 //   const [confirmState, setConfirmState] = useState(null);
 //   setConfirmState({ message: 'Delete this project?', onConfirm: () => doDelete(id) });
 //   <ConfirmDialog state={confirmState} onClose={() => setConfirmState(null)} />
 const ConfirmDialog = ({ state, onClose }) => {
+    const modalRef = useFocusTrap(!!state);
+
+    // This is a destructive-action confirmation — Escape needs to reliably
+    // cancel it, same as clicking "Cancel" would.
+    useEffect(() => {
+        if (!state) return undefined;
+        const onKeyDown = (e) => {
+            if (e.key === 'Escape') onClose();
+        };
+        document.addEventListener('keydown', onKeyDown);
+        return () => document.removeEventListener('keydown', onKeyDown);
+    }, [state, onClose]);
+
     const handleConfirm = () => {
         state?.onConfirm?.();
         onClose();
@@ -23,7 +37,13 @@ const ConfirmDialog = ({ state, onClose }) => {
                     onClick={onClose}
                 >
                     <motion.div
+                        ref={modalRef}
                         className="w-full max-w-sm rounded-2xl border border-red-500/20 bg-[#111827] p-6 shadow-2xl"
+                        role="alertdialog"
+                        aria-modal="true"
+                        aria-labelledby="confirm-dialog-title"
+                        aria-describedby="confirm-dialog-message"
+                        tabIndex={-1}
                         initial={{ opacity: 0, scale: 0.92, y: 10 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.92, y: 10 }}
@@ -34,11 +54,11 @@ const ConfirmDialog = ({ state, onClose }) => {
                             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-red-500/10 text-red-400">
                                 <AlertTriangle size={20} />
                             </div>
-                            <h3 className="text-base font-semibold text-white">
+                            <h3 id="confirm-dialog-title" className="text-base font-semibold text-white">
                                 {state?.title || 'Are you sure?'}
                             </h3>
                         </div>
-                        <p className="mb-6 text-sm text-sky-100/60">{state?.message}</p>
+                        <p id="confirm-dialog-message" className="mb-6 text-sm text-sky-100/60">{state?.message}</p>
                         <div className="flex justify-end gap-2">
                             <button
                                 onClick={onClose}

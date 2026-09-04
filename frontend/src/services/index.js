@@ -4,7 +4,12 @@ import createResourceService from './createResourceService';
 export const skillsService = createResourceService('/skills');
 export const educationService = createResourceService('/education');
 export const experienceService = createResourceService('/experience');
-export const projectsService = createResourceService('/projects');
+export const projectsService = {
+    ...createResourceService('/projects'),
+    // Removes a single existing image from a project's images array
+    // (distinct from create/update, which only ever append new images).
+    removeImage: (id, imageIndex) => api.delete(`/projects/${id}/images/${imageIndex}`).then((res) => res.data),
+};
 export const certificatesService = createResourceService('/certificates');
 export const servicesService = createResourceService('/services');
 

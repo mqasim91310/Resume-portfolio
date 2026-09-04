@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { X, Download, ExternalLink, Loader2 } from 'lucide-react';
+import { useFocusTrap } from '../hooks/useFocusTrap';
 
 /**
  * Full-screen certificate viewer.
@@ -10,6 +11,7 @@ import { X, Download, ExternalLink, Loader2 } from 'lucide-react';
  */
 const CertificateModal = ({ certificate, onClose }) => {
     const [loaded, setLoaded] = useState(false);
+    const modalRef = useFocusTrap(!!certificate);
 
     // Reset the loading state whenever a new certificate is opened.
     useEffect(() => {
@@ -43,7 +45,12 @@ const CertificateModal = ({ certificate, onClose }) => {
                     onClick={onClose}
                 >
                     <motion.div
+                        ref={modalRef}
                         className="cert-modal-content glass-card"
+                        role="dialog"
+                        aria-modal="true"
+                        aria-labelledby="cert-modal-title"
+                        tabIndex={-1}
                         initial={{ opacity: 0, scale: 0.92, y: 20 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.92, y: 20 }}
@@ -52,8 +59,11 @@ const CertificateModal = ({ certificate, onClose }) => {
                     >
                         <div className="cert-modal-header">
                             <div>
-                                <h3>{certificate.title}</h3>
+                                <h3 id="cert-modal-title">{certificate.title}</h3>
                                 <p>Issued by {certificate.issuer}</p>
+                                {certificate.description && (
+                                    <p className="cert-modal-description">{certificate.description}</p>
+                                )}
                             </div>
                             <button
                                 className="cert-modal-close"
@@ -81,6 +91,14 @@ const CertificateModal = ({ certificate, onClose }) => {
                                         style={{ opacity: loaded ? 1 : 0 }}
                                     />
                                 </>
+                            ) : certificate.image ? (
+                                <img
+                                    src={certificate.image}
+                                    alt={`${certificate.title} certificate`}
+                                    className="cert-modal-image"
+                                    onLoad={() => setLoaded(true)}
+                                    style={{ opacity: loaded ? 1 : 0 }}
+                                />
                             ) : (
                                 <div className="cert-modal-fallback">
                                     <p>A downloadable copy of this certificate isn't hosted here yet.</p>
@@ -99,9 +117,9 @@ const CertificateModal = ({ certificate, onClose }) => {
                         </div>
 
                         <div className="cert-modal-footer">
-                            {certificate.file && (
+                            {(certificate.file || certificate.image) && (
                                 <a
-                                    href={certificate.file}
+                                    href={certificate.file || certificate.image}
                                     download
                                     className="btn small-btn primary-btn"
                                 >

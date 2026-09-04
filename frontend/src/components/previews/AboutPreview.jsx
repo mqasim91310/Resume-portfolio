@@ -1,16 +1,23 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import ProfileAvatar from '../ProfileAvatar';
 import AnimatedCounter from '../AnimatedCounter';
 import SectionCta from './SectionCta';
+import { useStatistics } from '../../hooks/useStatistics';
+import { useAbout } from '../../hooks/useAbout';
 
-const stats = [
-    { value: '2.5', label: 'Years Experience', suffix: '+' },
-    { value: '15', label: 'Projects Completed', suffix: '+' },
-    { value: '10', label: 'Certificates', suffix: '+' },
-];
+const AboutPreview = () => {
+    const liveStats = useStatistics({ years: '2.5', projects: '15', certificates: '10' });
+    const about = useAbout({ profileImage: undefined });
+    const stats = [
+        { value: liveStats.years, label: 'Years Experience', suffix: '+' },
+        { value: liveStats.projects, label: 'Projects Completed', suffix: '+' },
+        { value: liveStats.certificates, label: 'Certificates', suffix: '+' },
+    ];
 
-const AboutPreview = () => (
+    return (
     <section id="about" className="section-padding relative overflow-hidden">
         <div className="container">
             <motion.h2
@@ -33,7 +40,7 @@ const AboutPreview = () => (
                 <div className="flex justify-center lg:col-span-4">
                     <div className="relative">
                         <div className="absolute inset-0 -z-10 rounded-3xl bg-blue-500/10 blur-2xl" />
-                        <ProfileAvatar size="md" />
+                        <ProfileAvatar size="md" src={about.profileImage} />
                     </div>
                 </div>
 
@@ -59,12 +66,20 @@ const AboutPreview = () => (
                             </div>
                         ))}
                     </div>
+                    <Link
+                        to="/statistics"
+                        className="group mt-3 inline-flex items-center gap-1 text-xs font-medium text-sky-300/70 transition-colors hover:text-white cursor-hover"
+                    >
+                        View the full journey in numbers
+                        <ArrowRight size={11} className="transition-transform duration-300 group-hover:translate-x-1" />
+                    </Link>
                 </div>
             </motion.div>
 
             <SectionCta to="/about" label="Learn More About Me" />
         </div>
     </section>
-);
+    );
+};
 
 export default AboutPreview;

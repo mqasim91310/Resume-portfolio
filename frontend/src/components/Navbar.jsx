@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useAbout } from '../hooks/useAbout';
 
 // Six-item one-page nav. Each entry scrolls to a section id on the
 // homepage; when the user isn't on "/", links first route home, then the
@@ -24,8 +25,20 @@ const Navbar = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const onHome = location.pathname === '/';
+    const about = useAbout({ resumeUrl: '/Muhammad-Qasim-CV.pdf' });
 
     const toggleMenu = () => setIsOpen((o) => !o);
+
+    // Let Escape close the mobile menu, and don't leave it stuck open if the
+    // viewport is resized past the mobile breakpoint while it's open.
+    useEffect(() => {
+        if (!isOpen) return undefined;
+        const onKeyDown = (e) => {
+            if (e.key === 'Escape') setIsOpen(false);
+        };
+        document.addEventListener('keydown', onKeyDown);
+        return () => document.removeEventListener('keydown', onKeyDown);
+    }, [isOpen]);
 
     // Slim the header down once the user has scrolled past the hero.
     useEffect(() => {
@@ -78,7 +91,7 @@ const Navbar = () => {
                     Muhammad Qasim
                 </Link>
 
-                <ul className={`nav-menu ${isOpen ? 'active' : ''}`}>
+                <ul id="nav-menu" className={`nav-menu ${isOpen ? 'active' : ''}`}>
                     {navLinks.map((link) => (
                         <motion.li
                             key={link.id}
@@ -96,11 +109,34 @@ const Navbar = () => {
                             </a>
                         </motion.li>
                     ))}
+                    <motion.li
+                        className="nav-item nav-item-cta"
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                    >
+                        <a
+                            href={about.resumeUrl}
+                            download="Muhammad-Qasim-CV.pdf"
+                            target={about.resumeUrl.startsWith('/') ? undefined : '_blank'}
+                            rel={about.resumeUrl.startsWith('/') ? undefined : 'noopener noreferrer'}
+                            className="nav-link nav-cta-btn"
+                            onClick={() => setIsOpen(false)}
+                        >
+                            Download CV
+                        </a>
+                    </motion.li>
                 </ul>
 
-                <div className="hamburger" onClick={toggleMenu} role="button" aria-label="Toggle menu">
+                <button
+                    type="button"
+                    className="hamburger"
+                    onClick={toggleMenu}
+                    aria-label={isOpen ? 'Close menu' : 'Open menu'}
+                    aria-expanded={isOpen}
+                    aria-controls="nav-menu"
+                >
                     {isOpen ? <X size={24} /> : <Menu size={24} />}
-                </div>
+                </button>
             </nav>
         </motion.header>
     );

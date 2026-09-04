@@ -5,6 +5,7 @@ import { servicesService } from '../../services';
 const fields = [
     { name: 'title', label: 'Title' },
     { name: 'description', label: 'Description', type: 'textarea' },
+    { name: 'bullets', label: 'Value bullets (optional, one per line)', type: 'textarea' },
     { name: 'icon', label: 'Icon name (optional)' },
     { name: 'order', label: 'Order', type: 'number' },
 ];

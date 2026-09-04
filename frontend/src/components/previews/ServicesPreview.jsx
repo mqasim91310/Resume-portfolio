@@ -1,21 +1,18 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Smartphone, Paintbrush, Database, Code } from 'lucide-react';
 import SectionCta from './SectionCta';
-
-const services = [
-    { icon: Smartphone, title: 'Flutter Development', desc: 'Cross-platform mobile apps with a seamless iOS & Android experience.' },
-    { icon: Paintbrush, title: 'UI/UX Design', desc: 'Intuitive, user-centric interfaces that enhance engagement.' },
-    { icon: Database, title: 'Firebase Integration', desc: 'Scalable real-time data, auth, and cloud functions.' },
-    { icon: Code, title: 'REST API Integration', desc: 'Secure, well-documented API connections for data exchange.' },
-];
+import { serviceData as staticServiceData } from '../../data/services';
+import { useServices } from '../../hooks/useServices';
 
 const itemVariants = {
     hidden: { opacity: 0, y: 30 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.4 } },
 };
 
-const ServicesPreview = () => (
+const ServicesPreview = () => {
+    const services = useServices(staticServiceData).slice(0, 4);
+
+    return (
     <section id="services" className="section-padding relative">
         <div className="container">
             <motion.h2
@@ -38,7 +35,7 @@ const ServicesPreview = () => (
                 viewport={{ once: true, amount: 0.2 }}
                 transition={{ staggerChildren: 0.1 }}
             >
-                {services.map(({ icon: Icon, title, desc }) => (
+                {services.map(({ iconKey: Icon, title, description }) => (
                     <motion.div
                         key={title}
                         variants={itemVariants}
@@ -49,7 +46,7 @@ const ServicesPreview = () => (
                             <Icon size={24} />
                         </div>
                         <h3 className="mb-2 text-base font-semibold text-white">{title}</h3>
-                        <p className="text-xs leading-relaxed text-sky-100/60">{desc}</p>
+                        <p className="text-xs leading-relaxed text-sky-100/60">{description}</p>
                     </motion.div>
                 ))}
             </motion.div>
@@ -57,6 +54,7 @@ const ServicesPreview = () => (
             <SectionCta to="/services" label="View All Services" />
         </div>
     </section>
-);
+    );
+};
 
 export default ServicesPreview;

@@ -85,12 +85,12 @@ const ManageMessages = () => {
                                     </div>
                                     <div className="flex items-center gap-1 shrink-0">
                                         {!m.read && (
-                                            <button onClick={() => handleRead(m._id)} title="Mark as read" className="p-2 text-sky-300 hover:text-white hover:bg-blue-500/10 rounded-lg transition-colors">
+                                            <button onClick={() => handleRead(m._id)} title="Mark as read" aria-label={`Mark message from ${m.name} as read`} className="p-2 text-sky-300 hover:text-white hover:bg-blue-500/10 rounded-lg transition-colors">
                                                 <MailOpen size={15} />
                                             </button>
                                         )}
-                                        {m.read && <Mail size={15} className="text-sky-100/20 p-2 box-content" />}
-                                        <button onClick={() => requestDelete(m)} title="Delete" className="p-2 text-sky-100/50 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-colors">
+                                        {m.read && <Mail size={15} className="text-sky-100/20 p-2 box-content" aria-hidden="true" />}
+                                        <button onClick={() => requestDelete(m)} title="Delete" aria-label={`Delete message from ${m.name}`} className="p-2 text-sky-100/50 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-colors">
                                             <Trash2 size={15} />
                                         </button>
                                     </div>

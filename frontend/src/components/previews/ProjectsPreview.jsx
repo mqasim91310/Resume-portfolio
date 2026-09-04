@@ -4,15 +4,18 @@ import ProjectBanner from '../ProjectBanner';
 import TiltCard from '../TiltCard';
 import SectionCta from './SectionCta';
 import { projectData } from '../../data/projects';
-
-const featured = projectData.filter((p) => p.featured).slice(0, 3);
+import { useProjects } from '../../hooks/useProjects';
 
 const itemVariants = {
     hidden: { opacity: 0, y: 40 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
 };
 
-const ProjectsPreview = () => (
+const ProjectsPreview = () => {
+    const projects = useProjects(projectData);
+    const featured = (projects.filter((p) => p.featured).length ? projects.filter((p) => p.featured) : projects).slice(0, 3);
+
+    return (
     <section id="projects" className="section-padding relative">
         <div className="container">
             <motion.h2
@@ -25,7 +28,7 @@ const ProjectsPreview = () => (
                 Featured Projects
             </motion.h2>
             <p className="mx-auto -mt-6 mb-10 max-w-xl text-center text-sm text-sky-100/60">
-                A snapshot of {projectData.length}+ builds spanning web, mobile, and systems programming.
+                A snapshot of {projects.length}+ builds spanning web, mobile, and systems programming.
             </p>
 
             <motion.div
@@ -36,10 +39,10 @@ const ProjectsPreview = () => (
                 transition={{ staggerChildren: 0.12 }}
             >
                 {featured.map((project) => (
-                    <motion.div key={project.title} variants={itemVariants}>
+                    <motion.div key={project._id || project.title} variants={itemVariants}>
                         <TiltCard className="project-card glass-card featured-project h-full">
                             <div className="project-card-visual">
-                                <ProjectBanner icon={project.icon} gradient={project.gradient} featured />
+                                <ProjectBanner icon={project.icon} gradient={project.gradient} featured image={project.image} title={project.title} />
                             </div>
                             <div className="project-card-body">
                                 <h3>{project.title}</h3>
@@ -61,6 +64,7 @@ const ProjectsPreview = () => (
             <SectionCta to="/projects" label="View All Projects" />
         </div>
     </section>
-);
+    );
+};
 
 export default ProjectsPreview;

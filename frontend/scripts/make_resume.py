@@ -13,7 +13,7 @@ DARK = colors.HexColor('#1a1a1a')
 GREY = colors.HexColor('#4a4a4a')
 
 styles = {
-    'name': ParagraphStyle('name', fontName='Helvetica-Bold', fontSize=24, textColor=DARK, spaceAfter=2),
+    'name': ParagraphStyle('name', fontName='Helvetica-Bold', fontSize=24, textColor=DARK, leading=28, spaceAfter=10),
     'title': ParagraphStyle('title', fontName='Helvetica', fontSize=12.5, textColor=PINK, spaceAfter=8),
     'contact': ParagraphStyle('contact', fontName='Helvetica', fontSize=9.3, textColor=GREY, spaceAfter=14, leading=13),
     'section': ParagraphStyle('section', fontName='Helvetica-Bold', fontSize=12, textColor=PINK, spaceBefore=14, spaceAfter=6, letterSpacing=1),
@@ -52,10 +52,10 @@ doc = SimpleDocTemplate(
 story = []
 
 story.append(Paragraph("Muhammad Qasim", styles['name']))
-story.append(Paragraph("Computer Science Student &nbsp;|&nbsp; Flutter &amp; Full-Stack Developer", styles['title']))
+story.append(Paragraph("Full-Stack Developer &nbsp;&#8226;&nbsp; Flutter Developer &nbsp;&#8226;&nbsp; AI Enthusiast", styles['title']))
 story.append(Paragraph(
     "Lahore, Pakistan &nbsp;&#8226;&nbsp; mqasim91310@gmail.com &nbsp;&#8226;&nbsp; +92 320 658 9259 "
-    "&nbsp;&#8226;&nbsp; github.com/mqasim91310 &nbsp;&#8226;&nbsp; linkedin.com/in/muhammad-qasim-cs",
+    "&nbsp;&#8226;&nbsp; github.com/mqasim91310 &nbsp;&#8226;&nbsp; linkedin.com/in/muhammad-qasim-6725242a7",
     styles['contact']
 ))
 story.append(hr())
@@ -63,7 +63,7 @@ story.append(hr())
 # Summary
 story.append(section("Professional Summary"))
 story.append(Paragraph(
-    "Motivated BS Computer Science student at Riphah International University (5th Semester) with hands-on "
+    "Motivated BS Computer Science student at Riphah International University (6th Semester) with hands-on "
     "experience building full-stack web applications, mobile apps, DSA-driven C++ systems, and interactive games. "
     "Proficient in Java, C++, Assembly Language (x86/8086), and cross-platform development using Flutter and Unity. "
     "Actively seeking a Software Engineering internship to apply academic knowledge in a real-world engineering "
@@ -74,22 +74,45 @@ story.append(Paragraph(
 # Education
 story.append(section("Education"))
 story.append(Paragraph("Bachelor of Science in Computer Science (BSCS)", styles['job_title']))
-story.append(Paragraph("Riphah International University, Lahore, Pakistan &nbsp;|&nbsp; Expected Graduation: June 2027 &nbsp;|&nbsp; Currently in 5th Semester", styles['job_meta']))
+story.append(Paragraph(
+    "Riphah International University, Lahore, Pakistan &nbsp;|&nbsp; Expected Graduation: June 2027 "
+    "&nbsp;|&nbsp; Currently in 6th Semester",
+    styles['job_meta']
+))
+story.append(Paragraph(
+    "Relevant coursework: Data Structures &amp; Algorithms, Object-Oriented Programming, Database Systems, "
+    "Software Engineering, Computer Organization &amp; Assembly Language, Discrete Mathematics.",
+    styles['body']
+))
+
+# Experience
+story.append(section("Experience"))
+story.append(Paragraph("Frontend Development Intern &nbsp;&#8226;&nbsp; Decode Labs", styles['job_title']))
+story.append(Paragraph("Remote / Virtual &nbsp;|&nbsp; 15 May 2026 &#8211; 15 June 2026", styles['job_meta']))
+story.append(bullet(
+    "Learning-focused internship working on assigned frontend projects, completing milestones, and "
+    "participating in mentor-led sessions to gain hands-on industry experience."
+))
 
 # Projects
 story.append(section("Featured Projects"))
 
 projects = [
     ("Al Kabir Developers — Real Estate Web Application", "React.js, Node.js, MySQL",
-     "Engineered a full-stack real estate web app with live property listings, user registration, and an admin dashboard; normalized MySQL schema improved query efficiency by 25%."),
-    ("Street Rush — Endless Runner Mobile Game", "Unity Engine, C#",
-     "Shipped a complete endless-runner game with procedural obstacle generation, scoring, progressive difficulty scaling, and object-pooled rendering."),
+     "Full-stack real estate web app with live property listings, user registration, multi-filter search, and an "
+     "admin dashboard; normalized MySQL schema improved query efficiency by roughly 25%. Deployed live."),
+    ("Street Rush — Endless Runner Mobile Game", "Unity 6, C#",
+     "Complete endless-runner game with procedural obstacle generation, progressive difficulty scaling, "
+     "object-pooled rendering for a stable 60 FPS on mobile, and a persistent local high-score system."),
     ("Brew & Bless Coffee Shop — Mobile Application", "Flutter, Dart, Firebase",
-     "Built a cross-platform ordering app with real-time Firestore sync, custom UI widgets, and secure Firebase Authentication."),
-    ("Flight Reservation System", "C++, Linked Lists, Queues",
-     "Console-based reservation system using linked lists for seat management, queues for waitlists, and merge sort for flight listings."),
-    ("Restaurant Management System", "Java (OOP), MySQL/PostgreSQL",
-     "Console application applying encapsulation, inheritance, and polymorphism with CRUD-backed order management and automated billing."),
+     "Cross-platform ordering app with real-time Firestore sync for menu and orders, custom Flutter widgets, "
+     "and secure Firebase Authentication."),
+    ("Hotel Management System", "C++, DSA (Trees, Hash Maps, File I/O)",
+     "Full check-in/check-out and billing system using a hash map for constant-time room lookups, tree-based "
+     "record organization, and persistent file I/O for guest data."),
+    ("OS Kernel Simulation with CPU Scheduling", "JavaFX, Java",
+     "Visual simulator for kernel-level process scheduling implementing FCFS, SJF, and Round Robin algorithms "
+     "against a shared process model."),
 ]
 
 for title, tech, desc in projects:
@@ -104,7 +127,7 @@ story.append(section("Technical Skills"))
 skills_table_data = [
     [Paragraph("Programming Languages", styles['skillcat']), Paragraph("Java, C++, Dart, C# (Unity), x86/8086 Assembly", styles['skillval'])],
     [Paragraph("Web Development", styles['skillcat']), Paragraph("HTML5, CSS3, JavaScript, React.js, Node.js", styles['skillval'])],
-    [Paragraph("Mobile & Game Dev", styles['skillcat']), Paragraph("Flutter, Unity Engine", styles['skillval'])],
+    [Paragraph("Mobile &amp; Game Dev", styles['skillcat']), Paragraph("Flutter, Unity Engine", styles['skillval'])],
     [Paragraph("Databases", styles['skillcat']), Paragraph("MySQL, PostgreSQL, Firebase", styles['skillval'])],
     [Paragraph("Tools", styles['skillcat']), Paragraph("Git, GitHub, VS Code, Android Studio", styles['skillval'])],
     [Paragraph("Coursework", styles['skillcat']), Paragraph("DSA, OOP, Database Systems, Software Engineering, Computer Organization, Discrete Mathematics", styles['skillval'])],
@@ -122,19 +145,36 @@ story.append(t)
 # Journey / timeline highlights
 story.append(section("Academic Journey"))
 journey_items = [
-    ("Semester 1-2 (2022-2023)", "Foundations of Programming, OOP &amp; Data Structures — built a console calculator and a Java Library Management System."),
-    ("Semester 3-4 (2023-2024)", "Web &amp; Database Fundamentals, Operating Systems — built an e-commerce frontend and a C-based simple shell."),
-    ("Semester 5 (2024-2025)", "Computer Networks, Software Engineering, Theory of Automata — developed a Python socket-based chat application."),
-    ("Upcoming", "Artificial Intelligence, Flutter, Cloud Computing (AWS), Big Data Analytics, Capstone Project."),
+    ("Semester 1-2 (Spring-Fall 2024)", "Programming Foundations, Digital Logic &amp; Design — built an OOP-based "
+     "Airline Reservation System (C++), a Restaurant Management System (Java), and a 4-bit password lock circuit."),
+    ("Semester 3-4 (Spring-Fall 2025)", "Data Structures, Databases, Assembly, Web &amp; Software Engineering — "
+     "built a DSA-driven Hotel Management System, a MySQL ticket-booking system, and the full-stack Al Kabir "
+     "Developers web app."),
+    ("Semester 5 (Spring 2026)", "Human-Computer Interaction, Mobile App Development, Game Programming, Operating "
+     "Systems — shipped two Flutter apps (Brew &amp; Bless, DeenEase), the Street Rush Unity game, and an OS "
+     "scheduling simulator."),
+    ("Semester 6 — In Progress (Fall 2026)", "Advanced coursework in Artificial Intelligence, Advanced Database "
+     "Systems, and Mobile App Development — currently building the full Khidmat application and laying the "
+     "groundwork for a home-tutor LMS platform."),
 ]
 for period, desc in journey_items:
     story.append(Paragraph(f"<b>{period}:</b> {desc}", styles['body']))
 
+# Certifications
+story.append(section("Certifications"))
+story.append(Paragraph(
+    "C++ Essentials 2, JavaScript Essentials 1 &amp; 2, and Operating Systems Basics (Cisco Networking Academy) "
+    "&nbsp;&#8226;&nbsp; Master Data Analysis &amp; EDA for Machine Learning Projects, ChatGPT Masterclass, and "
+    "Ethically Hack the Planet Parts 1 &amp; 2 (Udemy) &nbsp;&#8226;&nbsp; Get Started with SQL Analytics and BI "
+    "on Databricks (Databricks) &nbsp;&#8226;&nbsp; Excel Automation using ChatGPT (Verified Certificate)",
+    styles['body']
+))
+
 # Interests
 story.append(section("Interests"))
 story.append(Paragraph(
-    "Exploring new technologies, contributing to open-source projects, participating in hackathons, "
-    "and continuous learning across the modern software stack.",
+    "Pulling apart new frameworks and AI tools to see what they're actually good for, tinkering with small "
+    "Flutter and game side-projects, and studying how production codebases are structured beyond textbook examples.",
     styles['body']
 ))
 

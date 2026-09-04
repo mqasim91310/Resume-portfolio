@@ -18,6 +18,8 @@ import AnimatedCounter from '../components/AnimatedCounter';
 import ProfileAvatar from '../components/ProfileAvatar';
 import WebsiteShowcase from '../components/sections/WebsiteShowcase';
 import MobileShowcase from '../components/sections/MobileShowcase';
+import { useAbout } from '../hooks/useAbout';
+import { useStatistics } from '../hooks/useStatistics';
 
 // The homepage is a landing page, not a mirror of every dedicated page.
 // Each section below renders only a short, scannable preview with a
@@ -31,11 +33,21 @@ import CertificatesPreview from '../components/previews/CertificatesPreview';
 const Home = () => {
     const navigate = useNavigate();
     const [typingText, setTypingText] = useState('');
+
+    const about = useAbout({
+        name: 'Muhammad Qasim',
+        github: 'https://github.com/mqasim91310',
+        linkedin: 'https://www.linkedin.com/in/muhammad-qasim-6725242a7',
+        email: 'mailto:mqasim91310@gmail.com',
+        profileImage: undefined,
+        resumeUrl: '/Muhammad-Qasim-CV.pdf',
+    });
+    const stats = useStatistics({ years: 2.5, projects: 15, certificates: 10 });
     const phrases = [
         'Flutter Developer',
+        'AI Enthusiast',
         'MERN Stack Developer',
         'Mobile App Developer',
-        'Problem Solver',
     ];
 
     useEffect(() => {
@@ -109,16 +121,16 @@ const Home = () => {
     const quickStats = [
         { value: '6th', label: 'Semester, BSCS', hasAnim: false },
         { value: '2027', label: 'Expected Graduation', hasAnim: false },
-        { value: '15', label: 'Projects Built', hasAnim: true, suffix: '+' },
+        { value: stats.projects, label: 'Projects Built', hasAnim: true, suffix: '+' },
         { value: '4', label: 'Languages & Tools', hasAnim: true, suffix: '+' },
     ];
 
     const semesterChips = Array.from({ length: 8 }, (_, i) => i + 1);
 
     const socials = [
-        { icon: Github, href: 'https://github.com/mqasim91310', label: 'GitHub' },
-        { icon: Linkedin, href: 'https://www.linkedin.com/in/muhammad-qasim-6725242a7', label: 'LinkedIn' },
-        { icon: Mail, href: 'mailto:mqasim91310@gmail.com', label: 'Email' },
+        { icon: Github, href: about.github, label: 'GitHub' },
+        { icon: Linkedin, href: about.linkedin, label: 'LinkedIn' },
+        { icon: Mail, href: about.email, label: 'Email' },
     ];
 
     return (
@@ -148,20 +160,21 @@ const Home = () => {
                             </span>
                             Available for internships &amp; freelance work
                             <span className="hidden text-sky-400/50 sm:inline">·</span>
-                            <span className="hidden text-sky-300/90 sm:inline">Flutter • MERN • UI systems</span>
+                            <span className="hidden text-sky-300/90 sm:inline">Flutter • MERN • AI Tools</span>
                         </motion.div>
 
                         <motion.div variants={itemVariants} className="hero-profile-shell lg:hidden">
                             <div className="relative">
                                 <div className="absolute inset-0 -z-10 rounded-full bg-blue-500/40 blur-2xl" />
-                                <ProfileAvatar size="sm" />
+                                <ProfileAvatar size="sm" src={about.profileImage} />
                             </div>
                         </motion.div>
 
                         <motion.div variants={itemVariants} className="hero-heading-group">
                             <h1>
-                                Hello, I'm <span className="student-name">Muhammad Qasim</span>
+                                Hello, I'm <span className="student-name">{about.name}</span>
                             </h1>
+                            <p className="hero-role-primary">Full-Stack Developer</p>
                             <p className="subtitle">
                                 <span className="typing-effect">{typingText}</span>
                                 <span className="animate-pulse text-sky-400">|</span>
@@ -169,10 +182,10 @@ const Home = () => {
                         </motion.div>
 
                         <motion.p variants={itemVariants} className="intro-text">
-                            A motivated BS Computer Science student at Riphah International University with
-                            hands-on experience building full-stack web applications, mobile apps, DSA-driven
-                            C++ systems, and interactive games. Welcome to my journey through code, curiosity,
-                            and the occasional stretch goal.
+                            I build modern web apps and cross-platform Flutter mobile apps, backed by a BS Computer
+                            Science foundation in data structures, systems programming, and interactive games at
+                            Riphah International University. I care about clean, maintainable code and genuinely
+                            usable interfaces — and I'm increasingly weaving AI tools into how I build, not just what I build.
                         </motion.p>
 
                         <motion.div variants={itemVariants} className="hero-meta">
@@ -185,8 +198,18 @@ const Home = () => {
 
                         <motion.div variants={itemVariants} className="hero-buttons">
                             <MagneticButton
-                                href="/Muhammad-Qasim-CV.pdf"
+                                href="#projects"
+                                className="btn primary-btn justify-center text-center"
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                            >
+                                View My Work <ArrowRight size={16} />
+                            </MagneticButton>
+                            <MagneticButton
+                                href={about.resumeUrl}
                                 download="Muhammad-Qasim-CV.pdf"
+                                target={about.resumeUrl.startsWith('/') ? undefined : '_blank'}
+                                rel={about.resumeUrl.startsWith('/') ? undefined : 'noopener noreferrer'}
                                 className="btn secondary-btn"
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
@@ -199,15 +222,7 @@ const Home = () => {
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
                             >
-                                Contact Me
-                            </MagneticButton>
-                            <MagneticButton
-                                href="#projects"
-                                className="btn primary-btn justify-center text-center"
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
-                            >
-                                View Projects <ArrowRight size={16} />
+                                Let's Work Together
                             </MagneticButton>
                         </motion.div>
 
@@ -241,10 +256,10 @@ const Home = () => {
                         transition={{ duration: 0.8, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
                     >
                         <div className="hero-preview-inner">
-                            <ProfileAvatar size="lg" />
+                            <ProfileAvatar size="lg" src={about.profileImage} />
                             <div className="hero-preview-stats">
                                 <div className="hero-preview-stat">
-                                    <span className="hero-preview-stat-val">15+</span>
+                                    <span className="hero-preview-stat-val">{stats.projects}+</span>
                                     <span className="hero-preview-stat-lbl">Projects</span>
                                 </div>
                                 <div className="hero-preview-stat">
@@ -324,7 +339,7 @@ const Home = () => {
                                         className={`relative rounded-full px-5 py-2.5 text-sm font-semibold backdrop-blur-sm transition-colors duration-300 ${isCurrent
                                             ? 'border border-sky-400/60 bg-gradient-to-r from-blue-600 to-blue-600 text-white shadow-[0_0_20px_rgba(56, 189, 248,0.45)]'
                                             : isUpcoming
-                                                ? 'border border-dashed border-white/15 bg-white/[0.02] text-sky-100/40'
+                                                ? 'border border-dashed border-white/15 bg-white/[0.02] text-sky-100/50'
                                                 : 'border border-blue-500/20 bg-white/[0.03] text-sky-100/80 hover:border-blue-500/50 hover:text-white'
                                             }`}
                                     >

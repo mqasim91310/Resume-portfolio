@@ -61,14 +61,22 @@ const Contact = () => {
     return (
         <section id="contact" className="contact-section section-padding">
             <div className="container">
-                <motion.h2 
+                <motion.h1 
                     className="section-title"
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5 }}
                 >
-                    Get In Touch
-                </motion.h2>
+                    Have an Idea or Project?
+                </motion.h1>
+                <motion.p
+                    className="text-center text-sky-100/60 text-sm -mt-6 mb-8 max-w-xl mx-auto"
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0.1 }}
+                >
+                    Whether it's a web app, a Flutter mobile app, or something that needs both — I'm happy to talk through what you're trying to build and whether I'm a good fit for it.
+                </motion.p>
                 <motion.div 
                     className="contact-content"
                     variants={containerVariants}

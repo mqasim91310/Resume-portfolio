@@ -1,0 +1,19 @@
+# Dependencies
+node_modules/
+
+# Environment variables (real MongoDB URI, JWT secrets, email password)
+.env
+.env.local
+.env.*.local
+
+# Logs
+logs/*.log
+
+# User-uploaded content (profile photos, resumes, project images, certificates)
+# Keep the folder structure but not the uploaded files themselves.
+uploads/**/*
+!uploads/**/.gitkeep
+
+# OS files
+.DS_Store
+Thumbs.db

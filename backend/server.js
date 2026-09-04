@@ -41,7 +41,10 @@ app.use(
         credentials: true,
     })
 );
-app.use(express.json({ limit: '10mb' }));
+// File uploads go through multer (separate size limits per type in
+// middleware/upload.js) — this parser only ever needs to handle small JSON
+// text payloads, so keep its limit tight to reduce DoS surface.
+app.use(express.json({ limit: '1mb' }));
 app.use(express.urlencoded({ extended: true }));
 app.use(mongoSanitize());
 
@@ -55,8 +58,21 @@ app.use(
 // Apply a general rate limit to every /api route
 app.use('/api', apiLimiter);
 
-// Serve uploaded files statically
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+// Serve uploaded files statically.
+// helmet() above sets Cross-Origin-Resource-Policy: same-origin globally,
+// which is the right default for the JSON API — but the frontend lives on a
+// different origin in production (see resolveBackendAsset.js) and embeds
+// these files directly via <img src="https://api-origin/uploads/...">.
+// Browsers enforce CORP independently of CORS, so without this override
+// every uploaded profile photo, project screenshot, and certificate image
+// would silently fail to load cross-origin. This does not weaken CORS
+// (still origin-restricted with credentials above) or the CSP on API
+// responses — it only relaxes resource embedding for this one static route.
+app.use(
+    '/uploads',
+    helmet.crossOriginResourcePolicy({ policy: 'cross-origin' }),
+    express.static(path.join(__dirname, 'uploads'))
+);
 
 // --- Routes -----------------------------------------------------------------
 app.get('/api/health', (req, res) => {

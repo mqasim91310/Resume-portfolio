@@ -7,6 +7,17 @@ const projectSchema = new mongoose.Schema(
         technologies: { type: String, required: true },
         role: { type: String, default: '' },
         features: { type: String, default: '' },
+        // Optional case-study fields. Left blank, a project renders as a
+        // simple description + features card (as before); filled in, the
+        // project page expands into a full case study. Kept optional so
+        // small coursework projects aren't forced into a template they
+        // don't have real content for.
+        problem: { type: String, default: '' },
+        solution: { type: String, default: '' },
+        techHighlights: { type: String, default: '' },
+        contribution: { type: String, default: '' },
+        challenges: { type: String, default: '' },
+        outcome: { type: String, default: '' },
         githubLink: { type: String, default: '' },
         liveDemoLink: { type: String, default: '' },
         images: [{ type: String }],

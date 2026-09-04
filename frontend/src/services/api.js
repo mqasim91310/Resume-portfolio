@@ -7,6 +7,10 @@ const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api'
 const api = axios.create({
     baseURL: API_BASE_URL,
     headers: { 'Content-Type': 'application/json' },
+    // Generous enough to survive a free-tier backend cold start, but bounded
+    // so a public page's background "enhance with live data" fetch can never
+    // hang forever — it just quietly gives up and keeps the static content.
+    timeout: 15000,
 });
 
 // Attach the admin JWT (if present) to every outgoing request

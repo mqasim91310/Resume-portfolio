@@ -18,68 +18,36 @@ const Statistics = lazy(() => import('./pages/Statistics'));
 const Contact = lazy(() => import('./pages/Contact'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 
-const AdminLogin = lazy(() => import('./admin/pages/Login'));
-const AdminLayout = lazy(() => import('./admin/AdminLayout'));
-const Dashboard = lazy(() => import('./admin/pages/Dashboard'));
-const ManageAbout = lazy(() => import('./admin/pages/ManageAbout'));
-const ManageSkills = lazy(() => import('./admin/pages/ManageSkills'));
-const ManageEducation = lazy(() => import('./admin/pages/ManageEducation'));
-const ManageExperience = lazy(() => import('./admin/pages/ManageExperience'));
-const ManageProjects = lazy(() => import('./admin/pages/ManageProjects'));
-const ManageCertificates = lazy(() => import('./admin/pages/ManageCertificates'));
-const ManageServices = lazy(() => import('./admin/pages/ManageServices'));
-const ManageStatistics = lazy(() => import('./admin/pages/ManageStatistics'));
-const ManageMessages = lazy(() => import('./admin/pages/ManageMessages'));
-
-import { AdminAuthProvider } from './admin/AuthContext';
-import ProtectedRoute from './admin/ProtectedRoute';
+// The entire /admin subtree (auth provider + all admin pages) is one lazy
+// chunk — see admin/AdminApp.jsx for why this matters for public-page
+// bundle size.
+const AdminApp = lazy(() => import('./admin/AdminApp'));
 
 function App() {
   return (
     <Router>
-      <AdminAuthProvider>
-        <Suspense fallback={<PageLoader />}>
-          <Routes>
-            {/* Public site — unchanged pages, shared chrome via PublicLayout */}
-            <Route element={<PublicLayout />}>
-              <Route path="/" element={<Home />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/journey" element={<Journey />} />
-              <Route path="/semester/:id" element={<SemesterDetail />} />
-              <Route path="/skills" element={<Skills />} />
-              <Route path="/projects" element={<Projects />} />
-              <Route path="/services" element={<Services />} />
-              <Route path="/certificates" element={<Certificates />} />
-              <Route path="/tech-stack" element={<TechStack />} />
-              <Route path="/statistics" element={<Statistics />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="*" element={<NotFound />} />
-            </Route>
+      <Suspense fallback={<PageLoader />}>
+        <Routes>
+          {/* Public site — unchanged pages, shared chrome via PublicLayout */}
+          <Route element={<PublicLayout />}>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/journey" element={<Journey />} />
+            <Route path="/semester/:id" element={<SemesterDetail />} />
+            <Route path="/skills" element={<Skills />} />
+            <Route path="/projects" element={<Projects />} />
+            <Route path="/services" element={<Services />} />
+            <Route path="/certificates" element={<Certificates />} />
+            <Route path="/tech-stack" element={<TechStack />} />
+            <Route path="/statistics" element={<Statistics />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="*" element={<NotFound />} />
+          </Route>
 
-            {/* Admin panel — separate layout, protected by JWT auth */}
-            <Route path="/admin/login" element={<AdminLogin />} />
-            <Route
-              path="/admin"
-              element={
-                <ProtectedRoute>
-                  <AdminLayout />
-                </ProtectedRoute>
-              }
-            >
-              <Route index element={<Dashboard />} />
-              <Route path="about" element={<ManageAbout />} />
-              <Route path="skills" element={<ManageSkills />} />
-              <Route path="education" element={<ManageEducation />} />
-              <Route path="experience" element={<ManageExperience />} />
-              <Route path="projects" element={<ManageProjects />} />
-              <Route path="certificates" element={<ManageCertificates />} />
-              <Route path="services" element={<ManageServices />} />
-              <Route path="statistics" element={<ManageStatistics />} />
-              <Route path="messages" element={<ManageMessages />} />
-            </Route>
-          </Routes>
-        </Suspense>
-      </AdminAuthProvider>
+          {/* Admin panel — separate layout, protected by JWT auth */}
+          <Route path="/admin/*" element={<AdminApp />} />
+        </Routes>
+      </Suspense>
     </Router>
   );
 }

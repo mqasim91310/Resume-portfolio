@@ -3,6 +3,7 @@ import { Mail } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Github, Linkedin } from './BrandIcons';
 import { motion } from 'framer-motion';
+import { useAbout } from '../hooks/useAbout';
 
 const quickLinks = [
     { name: 'Home', id: 'home' },
@@ -25,6 +26,11 @@ const Footer = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const onHome = location.pathname === '/';
+    const about = useAbout({
+        github: 'https://github.com/mqasim91310',
+        linkedin: 'https://www.linkedin.com/in/muhammad-qasim-6725242a7',
+        email: 'mailto:mqasim91310@gmail.com',
+    });
 
     const goToSection = (id) => (e) => {
         e.preventDefault();
@@ -57,11 +63,12 @@ const Footer = () => {
                     <div className="footer-intro">
                         <p className="footer-eyebrow">Portfolio</p>
                         <h3>Muhammad Qasim</h3>
+                        <p className="footer-role">Full-Stack Developer · Flutter Developer · AI Enthusiast</p>
                         <p>Building thoughtful digital experiences with a calm, modern approach and a strong technical foundation.</p>
                         <div className="footer-socials">
-                            <a href="https://github.com/mqasim91310" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><Github size={20} /></a>
-                            <a href="https://www.linkedin.com/in/muhammad-qasim-6725242a7" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><Linkedin size={20} /></a>
-                            <a href="mailto:mqasim91310@gmail.com" aria-label="Email"><Mail size={20} /></a>
+                            <a href={about.github} target="_blank" rel="noopener noreferrer" aria-label="GitHub"><Github size={20} /></a>
+                            <a href={about.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><Linkedin size={20} /></a>
+                            <a href={about.email} aria-label="Email"><Mail size={20} /></a>
                         </div>
                     </div>
 

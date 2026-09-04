@@ -5,6 +5,7 @@ import { Github } from '../components/BrandIcons';
 import ProjectBanner from '../components/ProjectBanner';
 import TiltCard from '../components/TiltCard';
 import { projectData, upcomingProjects } from '../data/projects';
+import { useProjects } from '../hooks/useProjects';
 
 const filters = ['all', 'web', 'flutter', 'cpp', 'java', 'game', 'dsa', 'database', 'os', 'assembly', 'hardware', 'design', 'university'];
 
@@ -16,11 +17,11 @@ const ProjectCard = ({ project }) => {
     return (
         <TiltCard className={`project-card glass-card ${project.featured ? 'featured-project' : ''}`}>
             <div className="project-card-visual">
-                <ProjectBanner icon={project.icon} gradient={project.gradient} featured={project.featured} />
+                <ProjectBanner icon={project.icon} gradient={project.gradient} featured={project.featured} image={project.image} title={project.title} />
                 <div className="project-card-overlay" />
                 <div className="project-card-chip-row">
                     <span className="project-card-chip">{project.featured ? 'Featured' : 'Case Study'}</span>
-                    <span className="project-card-chip subtle">Sem {project.semester}</span>
+                    {project.semester && <span className="project-card-chip subtle">Sem {project.semester}</span>}
                 </div>
             </div>
 
@@ -34,29 +35,62 @@ const ProjectCard = ({ project }) => {
                     ))}
                 </div>
 
-                <button
-                    type="button"
-                    className="project-details-toggle"
-                    aria-expanded={expanded}
-                    onClick={() => setExpanded((v) => !v)}
-                >
-                    {expanded ? 'Hide details' : 'Role & key features'} <ChevronDown size={14} />
-                </button>
+                {(() => {
+                    const hasCaseStudy = Boolean(
+                        project.problem || project.solution || project.techHighlights ||
+                        project.contribution || project.challenges || project.outcome
+                    );
+                    const featureList = project.features
+                        ? project.features.split(',').map((f) => f.trim()).filter(Boolean)
+                        : [];
 
-                <AnimatePresence initial={false}>
-                    {expanded && (
-                        <motion.div
-                            initial={{ height: 0, opacity: 0 }}
-                            animate={{ height: 'auto', opacity: 1 }}
-                            exit={{ height: 0, opacity: 0 }}
-                            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                            className="overflow-hidden text-left"
-                        >
-                            <p className="!mb-2"><strong>Role:</strong> {project.role}</p>
-                            <p><strong>Features:</strong> {project.features}</p>
-                        </motion.div>
-                    )}
-                </AnimatePresence>
+                    if (!project.role && featureList.length === 0 && !hasCaseStudy) return null;
+
+                    return (
+                        <>
+                            <button
+                                type="button"
+                                className="project-details-toggle"
+                                aria-expanded={expanded}
+                                onClick={() => setExpanded((v) => !v)}
+                            >
+                                {expanded ? 'Hide details' : hasCaseStudy ? 'View full case study' : 'Role & key features'} <ChevronDown size={14} />
+                            </button>
+
+                            <AnimatePresence initial={false}>
+                                {expanded && (
+                                    <motion.div
+                                        initial={{ height: 0, opacity: 0 }}
+                                        animate={{ height: 'auto', opacity: 1 }}
+                                        exit={{ height: 0, opacity: 0 }}
+                                        transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                                        className="overflow-hidden text-left"
+                                    >
+                                        <div className="space-y-2.5">
+                                            {project.role && <p><strong>Role:</strong> {project.role}</p>}
+                                            {featureList.length > 0 && (
+                                                <>
+                                                    <p className="!mb-1"><strong>Key features:</strong></p>
+                                                    <ul className="!mb-2.5 space-y-1 px-5 text-[0.9em] list-disc marker:text-sky-400/70">
+                                                        {featureList.map((f) => (
+                                                            <li key={f}>{f}</li>
+                                                        ))}
+                                                    </ul>
+                                                </>
+                                            )}
+                                            {project.problem && <p><strong>The problem:</strong> {project.problem}</p>}
+                                            {project.solution && <p><strong>The approach:</strong> {project.solution}</p>}
+                                            {project.techHighlights && <p><strong>Technical highlights:</strong> {project.techHighlights}</p>}
+                                            {project.contribution && <p><strong>My contribution:</strong> {project.contribution}</p>}
+                                            {project.challenges && <p><strong>Challenges:</strong> {project.challenges}</p>}
+                                            {project.outcome && <p><strong>Outcome:</strong> {project.outcome}</p>}
+                                        </div>
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+                        </>
+                    );
+                })()}
 
                 <div className="project-buttons">
                     <motion.a
@@ -87,10 +121,11 @@ const ProjectCard = ({ project }) => {
 
 const Projects = () => {
     const [filter, setFilter] = useState('all');
+    const projects = useProjects(projectData);
 
     const filteredProjects = filter === 'all'
-        ? projectData
-        : projectData.filter(project => project.category.includes(filter));
+        ? projects
+        : projects.filter(project => (project.category || '').includes(filter));
 
     const containerVariants = {
         hidden: { opacity: 0 },
@@ -105,16 +140,16 @@ const Projects = () => {
     return (
         <section id="projects" className="projects-section section-padding">
             <div className="container">
-                <motion.h2
+                <motion.h1
                     className="section-title"
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5 }}
                 >
                     Featured Projects
-                </motion.h2>
+                </motion.h1>
                 <p className="text-center text-sky-100/60 text-sm -mt-6 mb-8 max-w-xl mx-auto">
-                    15+ projects across 5 semesters — spanning C++, Java, mobile, web, hardware and design.
+                    {projects.length}+ projects spanning C++, Java, mobile, web, hardware and design.
                 </p>
 
                 <div className="project-filters">
@@ -138,8 +173,8 @@ const Projects = () => {
                     whileInView="visible"
                     viewport={{ once: true, amount: 0.2 }}
                 >
-                    {filteredProjects.map((project, index) => (
-                        <motion.div key={index} variants={itemVariants}>
+                    {filteredProjects.map((project) => (
+                        <motion.div key={project._id || project.title} variants={itemVariants}>
                             <ProjectCard project={project} />
                         </motion.div>
                     ))}
@@ -170,7 +205,7 @@ const Projects = () => {
                         <motion.div key={index} variants={itemVariants}>
                             <TiltCard className="project-card glass-card upcoming-card">
                                 <div className="project-card-visual">
-                                    <ProjectBanner icon={project.icon} gradient={project.gradient} />
+                                    <ProjectBanner icon={project.icon} gradient={project.gradient} title={project.title} />
                                     <div className="project-card-overlay" />
                                     <div className="project-card-chip-row">
                                         <span className="project-card-chip subtle">

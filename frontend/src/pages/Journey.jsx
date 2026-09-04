@@ -45,14 +45,14 @@ const Journey = () => {
         <section id="journey" ref={containerRef} className="journey-section section-padding relative py-20 overflow-hidden">
             <div className="container mx-auto px-4 max-w-5xl">
 
-                <motion.h2
+                <motion.h1
                     className="section-title text-center mb-4 font-bold text-3xl sm:text-4xl text-white"
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5 }}
                 >
                     My CS Journey
-                </motion.h2>
+                </motion.h1>
                 <p className="text-center text-sky-100/60 text-sm mb-16 max-w-xl mx-auto">
                     Spring 2024 to Fall 2027 — eight semesters of a BSCS degree, every subject paired with something I actually built.
                 </p>

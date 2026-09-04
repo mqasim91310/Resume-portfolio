@@ -1,25 +1,24 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Code2, Globe, Smartphone, Gamepad2, Database, GitBranch, GraduationCap, ArrowRight } from 'lucide-react';
+import { Code2, ArrowRight } from 'lucide-react';
 import SectionCta from './SectionCta';
-
-const categories = [
-    { icon: Code2, name: 'Programming Languages' },
-    { icon: Globe, name: 'Web Development' },
-    { icon: Smartphone, name: 'Mobile Development' },
-    { icon: Gamepad2, name: 'Game Development' },
-    { icon: Database, name: 'Databases' },
-    { icon: GitBranch, name: 'Tools & Version Control' },
-    { icon: GraduationCap, name: 'Relevant Coursework' },
-];
+import { skillsData as staticSkillsData, categoryIcons } from '../../data/skills';
+import { useSkills } from '../../hooks/useSkills';
 
 const itemVariants = {
     hidden: { opacity: 0, y: 30 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.4 } },
 };
 
-const SkillsPreview = () => (
+const SkillsPreview = () => {
+    const skillsData = useSkills(staticSkillsData);
+    const categories = skillsData.map((cat) => ({
+        name: cat.category,
+        icon: categoryIcons[cat.category] || Code2,
+    }));
+
+    return (
     <section id="skills" className="section-padding relative">
         <div className="container">
             <motion.h2
@@ -32,7 +31,7 @@ const SkillsPreview = () => (
                 Skills &amp; Expertise
             </motion.h2>
             <p className="mx-auto -mt-6 mb-10 max-w-xl text-center text-sm text-sky-100/60">
-                Seven core skill areas, from low-level programming to modern web &amp; mobile stacks.
+                {categories.length} core skill areas, from low-level programming to modern web &amp; mobile stacks.
             </p>
 
             <motion.div
@@ -69,6 +68,7 @@ const SkillsPreview = () => (
             </div>
         </div>
     </section>
-);
+    );
+};
 
 export default SkillsPreview;

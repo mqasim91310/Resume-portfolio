@@ -5,6 +5,7 @@ import { Bot, Database, BrainCircuit, ShieldCheck, ShieldAlert, FileSpreadsheet,
 export const certificateData = [
     {
         title: 'C++ Essentials 2',
+        description: 'Intermediate C++: object-oriented programming, templates, and STL containers, building directly on the C++ used throughout the degree\'s coursework.',
         issuer: 'Cisco Networking Academy · Riphah International University',
         instructor: 'Dua Mahmood',
         date: 'May 15, 2025',
@@ -15,6 +16,7 @@ export const certificateData = [
     },
     {
         title: "ChatGPT Masterclass: The Ultimate Beginner's Guide!",
+        description: 'A practical introduction to using ChatGPT effectively — prompt structuring and getting reliable output for everyday research and writing tasks.',
         issuer: 'Udemy',
         instructor: 'Chetan Pujari',
         date: 'Dec 4, 2025',
@@ -26,6 +28,7 @@ export const certificateData = [
     },
     {
         title: 'Get Started with SQL Analytics and BI on Databricks',
+        description: 'SQL-based analytics and business intelligence workflows on the Databricks platform, from querying data to building simple dashboards.',
         issuer: 'Databricks',
         date: 'Dec 27, 2025',
         certificateCode: '9644216',
@@ -35,6 +38,7 @@ export const certificateData = [
     },
     {
         title: 'Master Data Analysis and EDA for Machine Learning Projects',
+        description: 'Exploratory data analysis techniques — cleaning, visualizing, and interpreting datasets — as the first step in any machine learning workflow.',
         issuer: 'Udemy',
         instructor: 'Faisal Zamir',
         date: 'Dec 27, 2025',
@@ -46,6 +50,7 @@ export const certificateData = [
     },
     {
         title: 'Excel Automation using ChatGPT',
+        description: 'Using ChatGPT to automate repetitive Excel work, from formula generation to data cleanup.',
         issuer: 'Verified Certificate',
         date: 'Dec 27, 2025',
         certificateCode: '9646600',
@@ -56,6 +61,7 @@ export const certificateData = [
     },
     {
         title: 'Ethically Hack the Planet',
+        description: 'An introduction to ethical hacking and security fundamentals — how common attacks work and how to think defensively about systems.',
         issuer: 'Udemy',
         instructor: 'Cyber Twinkle, Zeronyte Security',
         date: 'Jan 2, 2026',
@@ -67,6 +73,7 @@ export const certificateData = [
     },
     {
         title: 'Ethically Hack the Planet Part 2',
+        description: 'Continues the ethical hacking track with more applied security concepts and hands-on techniques.',
         issuer: 'Udemy',
         instructor: 'Cyber Twinkle, Zeronyte Security',
         date: 'Jan 3, 2026',
@@ -78,6 +85,7 @@ export const certificateData = [
     },
     {
         title: 'JavaScript Essentials 1',
+        description: 'Core JavaScript fundamentals — syntax, control flow, and functions — the foundation for the web development work in later projects.',
         issuer: 'Cisco Networking Academy · Riphah International University',
         instructor: 'Dua Mahmood',
         date: 'Jan 25, 2026',
@@ -88,6 +96,7 @@ export const certificateData = [
     },
     {
         title: 'JavaScript Essentials 2',
+        description: 'Builds on JavaScript Essentials 1 with more advanced concepts: objects, asynchronous code, and working with the DOM.',
         issuer: 'Cisco Networking Academy · Riphah International University',
         instructor: 'Dua Mahmood',
         date: 'Jan 27, 2026',
@@ -98,6 +107,7 @@ export const certificateData = [
     },
     {
         title: 'Operating Systems Basics',
+        description: 'Foundational OS concepts — processes, memory management, and scheduling — that directly informed the OS Kernel Simulation project.',
         issuer: 'Cisco Networking Academy · Riphah International University',
         instructor: 'Ramisha Farrukh',
         date: 'Jun 1, 2026',

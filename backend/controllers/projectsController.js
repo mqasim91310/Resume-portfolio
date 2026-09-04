@@ -54,6 +54,29 @@ const updateProject = asyncHandler(async (req, res) => {
     res.status(200).json({ success: true, message: 'Project updated', data: project });
 });
 
+// @desc    Remove a single existing image from a project
+// @route   DELETE /api/projects/:id/images/:imageIndex
+// @access  Private
+const removeProjectImage = asyncHandler(async (req, res) => {
+    const project = await Project.findById(req.params.id);
+    if (!project) throw new ApiError(404, 'Project not found');
+
+    const index = Number(req.params.imageIndex);
+    if (!Number.isInteger(index) || index < 0 || index >= project.images.length) {
+        throw new ApiError(400, 'Invalid image index');
+    }
+
+    const [removedPath] = project.images.splice(index, 1);
+    await project.save();
+
+    if (removedPath) {
+        const fullPath = path.join(__dirname, '..', removedPath.replace(/^\/uploads/, 'uploads'));
+        fs.unlink(fullPath, () => {}); // best-effort cleanup, ignore errors
+    }
+
+    res.status(200).json({ success: true, message: 'Image removed', data: project });
+});
+
 // @desc    Delete project (also removes its uploaded image files)
 // @route   DELETE /api/projects/:id
 // @access  Private
@@ -70,4 +93,6 @@ const deleteProject = asyncHandler(async (req, res) => {
     res.status(200).json({ success: true, message: 'Project deleted' });
 });
 
-module.exports = { getProjects, getProject, createProject, updateProject, deleteProject };
+module.exports = {
+    getProjects, getProject, createProject, updateProject, removeProjectImage, deleteProject,
+};

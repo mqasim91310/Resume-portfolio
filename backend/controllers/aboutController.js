@@ -4,7 +4,16 @@ const About = require('../models/About');
 // Only these fields may be set via the public update endpoint — prevents a
 // caller from injecting arbitrary/unexpected keys into the document via
 // Object.assign(doc, req.body).
-const ALLOWED_FIELDS = ['name', 'designation', 'biography', 'socialLinks'];
+const ALLOWED_FIELDS = [
+    'name',
+    'designation',
+    'biography',
+    'careerObjective',
+    'currentFocus',
+    'futureGoals',
+    'interests',
+    'socialLinks',
+];
 
 const pick = (body, fields) =>
     fields.reduce((acc, key) => {

@@ -3,10 +3,12 @@ import { motion } from 'framer-motion';
 import { Eye, Calendar, Clock, Hash } from 'lucide-react';
 import ProjectBanner from '../components/ProjectBanner';
 import CertificateModal from '../components/CertificateModal';
-import { certificateData } from '../data/certificates';
+import { certificateData as staticCertificateData } from '../data/certificates';
+import { useCertificates } from '../hooks/useCertificates';
 
 const Certificates = () => {
     const [activeCertificate, setActiveCertificate] = useState(null);
+    const certificateData = useCertificates(staticCertificateData);
 
     const containerVariants = {
         hidden: { opacity: 0 },
@@ -21,14 +23,14 @@ const Certificates = () => {
     return (
         <section id="certificates" className="certificates-section section-padding">
             <div className="container">
-                <motion.h2
+                <motion.h1
                     className="section-title"
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5 }}
                 >
                     My Certificates
-                </motion.h2>
+                </motion.h1>
                 <p className="text-center text-sky-100/60 text-sm -mt-6 mb-8 max-w-xl mx-auto">
                     {certificateData.length} certifications across AI tools, data analysis, security and web development.
                 </p>
@@ -40,9 +42,9 @@ const Certificates = () => {
                     whileInView="visible"
                     viewport={{ once: true, amount: 0.2 }}
                 >
-                    {certificateData.map((cert, index) => (
+                    {certificateData.map((cert) => (
                         <motion.div
-                            key={index}
+                            key={cert._id || cert.title}
                             className="certificate-card glass-card"
                             variants={itemVariants}
                             style={{ perspective: 800 }}
@@ -58,12 +60,12 @@ const Certificates = () => {
                                 }
                             }}
                         >
-                            <ProjectBanner icon={cert.icon} gradient={cert.gradient} />
+                            <ProjectBanner icon={cert.icon} gradient={cert.gradient} image={cert.image} title={cert.title} />
                             <h3>{cert.title}</h3>
                             <p>Issued by {cert.issuer}</p>
                             {cert.instructor && <p className="text-xs text-sky-100/50">Instructor: {cert.instructor}</p>}
                             <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-xs text-sky-100/50 mt-2 mb-3">
-                                <span className="flex items-center gap-1"><Calendar size={12} /> {cert.date}</span>
+                                {cert.date && <span className="flex items-center gap-1"><Calendar size={12} /> {cert.date}</span>}
                                 {cert.length && <span className="flex items-center gap-1"><Clock size={12} /> {cert.length}</span>}
                                 {cert.certificateCode && <span className="flex items-center gap-1"><Hash size={12} /> {cert.certificateCode}</span>}
                             </div>

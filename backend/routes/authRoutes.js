@@ -20,6 +20,6 @@ router.post(
 
 router.post('/logout', protect, logout);
 router.get('/profile', protect, getProfile);
-router.post('/refresh', refresh);
+router.post('/refresh', authLimiter, refresh);
 
 module.exports = router;

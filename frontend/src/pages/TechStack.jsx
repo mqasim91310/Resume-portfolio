@@ -55,14 +55,14 @@ const TechStack = () => {
     return (
         <section id="tech-stack" className="tech-stack-section section-padding">
             <div className="container">
-                <motion.h2 
+                <motion.h1 
                     className="section-title"
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5 }}
                 >
                     My Tech Stack
-                </motion.h2>
+                </motion.h1>
                 <motion.div 
                     className="tech-stack-grid"
                     variants={containerVariants}
